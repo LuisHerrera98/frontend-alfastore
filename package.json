@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --outputPath ../front-alfastore/dist",
+    "build": "ng build --baseHref /Users/luchostudy/Documents/front-alfastore",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
