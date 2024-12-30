@@ -1,9 +1,9 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { Header } from '../../components/Header';
-import { WhatsAppButton } from '../../components/WhatsAppButton';
-import { X } from 'lucide-react';
-import { useParams, useSearchParams } from 'next/navigation';
+"use client";
+import { useState, useEffect } from "react";
+import { Header } from "../../components/Header";
+import { WhatsAppButton } from "../../components/WhatsAppButton";
+import { X } from "lucide-react";
+import { useParams, useSearchParams } from "next/navigation";
 
 interface Product {
   _id: string;
@@ -18,11 +18,11 @@ export default function SizeView() {
   const [error, setError] = useState<string | null>(null);
   const [pageNum, setPageNum] = useState(1);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  
+
   const params = useParams();
   const searchParams = useSearchParams();
   const sizeId = params.sizeId as string;
-  const sizeName = searchParams.get('name');
+  const sizeName = searchParams.get("name");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -30,11 +30,11 @@ export default function SizeView() {
         const response = await fetch(
           `https://api.alfastoreargentina.com/api/v1/product/by-size/${sizeId}?page=${pageNum}&limit=8`
         );
-        if (!response.ok) throw new Error('Error al cargar datos');
+        if (!response.ok) throw new Error("Error al cargar datos");
         const productsData = await response.json();
         setProducts(productsData.data || []);
       } catch (error) {
-        setError(error instanceof Error ? error.message : 'Error desconocido');
+        setError(error instanceof Error ? error.message : "Error desconocido");
       } finally {
         setIsLoading(false);
       }
@@ -45,24 +45,28 @@ export default function SizeView() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header title={`Talles ${sizeName || ''}`} onMenuClick={()=>{}}/>
-      
+      <Header title={`Talles ${sizeName || ""}`} onMenuClick={() => {}} />
+
       <main className="pt-16 px-2">
-        {isLoading && <div className="text-center py-4">Cargando productos...</div>}
+        {isLoading && (
+          <div className="text-center py-4">Cargando productos...</div>
+        )}
         {error && <div className="text-red-500 text-center py-4">{error}</div>}
 
         <div className="grid grid-cols-2 gap-2">
           {products.map((product) => (
             <div key={product._id} className="w-[46vw] shadow-lg">
               <img
-                src={product.images[0]?.url || '/placeholder.jpg'}
+                src={product.images[0]?.url || "/placeholder.jpg"}
                 alt={product.name}
                 className="w-full aspect-square object-cover"
                 onClick={() => setSelectedImage(product.images[0]?.url)}
               />
               <div className="mt-1 px-1 bg-gray-50">
                 <h2 className="font-medium text-sm">{product.name}</h2>
-                <p className="text-sm">Precio: ${product.price.toLocaleString()}</p>
+                <p className="text-sm">
+                  Precio: ${product.price.toLocaleString()}
+                </p>
               </div>
             </div>
           ))}
@@ -70,7 +74,7 @@ export default function SizeView() {
 
         {products.length === 8 && (
           <button
-            onClick={() => setPageNum(prev => prev + 1)}
+            onClick={() => setPageNum((prev) => prev + 1)}
             className="w-full mt-4 bg-black text-white py-2 rounded font-medium"
           >
             Cargar más
@@ -81,9 +85,9 @@ export default function SizeView() {
       {selectedImage && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
           <div className="relative max-w-lg w-full">
-            <button 
+            <button
               onClick={() => setSelectedImage(null)}
-              className="absolute top-2 right-2 text-white"
+              className="fixed top-[10vh] right-4 bg-white rounded-full p-2"
               aria-label="Cerrar"
             >
               <X size={24} />
