@@ -4,6 +4,7 @@ import { Header } from "../../components/Header";
 import { WhatsAppButton } from "../../components/WhatsAppButton";
 import { X } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
+import { LOCAL, PRODUCTION } from "@/app/lib/constants";
 
 interface Product {
   _id: string;
@@ -28,7 +29,7 @@ export default function SizeView() {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          `https://api.alfastoreargentina.com/api/v1/product/by-size/${sizeId}?page=${pageNum}&limit=8`
+          `${PRODUCTION}/product/by-size/${sizeId}?page=${pageNum}&limit=8`
         );
         if (!response.ok) throw new Error("Error al cargar datos");
         const productsData = await response.json();

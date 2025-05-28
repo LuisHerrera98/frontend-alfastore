@@ -5,6 +5,7 @@ import { Sidebar } from '../../components/Sidebar';
 import { WhatsAppButton } from '../../components/WhatsAppButton';
 import { Category } from '../../types';
 import { useParams, useRouter } from 'next/navigation';
+import { LOCAL, PRODUCTION } from '@/app/lib/constants';
 
 interface Size {
   _id: string;
@@ -26,9 +27,11 @@ export default function CategoryView() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
         const [categoriesResponse, sizesResponse] = await Promise.all([
-          fetch('https://api.alfastoreargentina.com/api/v1/category-stock'),
-          fetch(`https://api.alfastoreargentina.com/api/v1/size/${categoryId}`)
+          fetch(`${PRODUCTION}/category-stock`),
+          fetch(`${PRODUCTION}/size/${categoryId}`)
         ]);
 
         if (!categoriesResponse.ok || !sizesResponse.ok) 

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import { Category } from '../types';
 import { Sidebar } from './Sidebar';
+import { LOCAL, PRODUCTION } from '../lib/constants';
 
 interface HeaderProps {
   title?: string;
@@ -17,7 +18,7 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://api.alfastoreargentina.com/api/v1/category-stock');
+        const response = await fetch(`${PRODUCTION}/category-stock`);
         if (!response.ok) throw new Error('Error al cargar categorías');
         const data = await response.json();
         setCategories(data);
